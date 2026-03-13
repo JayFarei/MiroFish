@@ -1,15 +1,15 @@
 import axios from 'axios'
 
-// 创建axios实例
+// Create axios instance
 const service = axios.create({
   baseURL: import.meta.env.VITE_API_BASE_URL || 'http://localhost:5001',
-  timeout: 300000, // 5分钟超时（本体生成可能需要较长时间）
+  timeout: 300000, // 5-minute timeout (ontology generation may take a while)
   headers: {
     'Content-Type': 'application/json'
   }
 })
 
-// 请求拦截器
+// Request interceptor
 service.interceptors.request.use(
   config => {
     return config
@@ -20,12 +20,12 @@ service.interceptors.request.use(
   }
 )
 
-// 响应拦截器（容错重试机制）
+// Response interceptor (fault-tolerant retry mechanism)
 service.interceptors.response.use(
   response => {
     const res = response.data
     
-    // 如果返回的状态码不是success，则抛出错误
+    // Throw error if the returned status is not success
     if (!res.success && res.success !== undefined) {
       console.error('API Error:', res.error || res.message || 'Unknown error')
       return Promise.reject(new Error(res.error || res.message || 'Error'))
@@ -36,12 +36,12 @@ service.interceptors.response.use(
   error => {
     console.error('Response error:', error)
     
-    // 处理超时
+    // Handle timeout
     if (error.code === 'ECONNABORTED' && error.message.includes('timeout')) {
       console.error('Request timeout')
     }
     
-    // 处理网络错误
+    // Handle network error
     if (error.message === 'Network Error') {
       console.error('Network error - please check your connection')
     }
@@ -50,7 +50,7 @@ service.interceptors.response.use(
   }
 )
 
-// 带重试的请求函数
+// Request function with retry
 export const requestWithRetry = async (requestFn, maxRetries = 3, delay = 1000) => {
   for (let i = 0; i < maxRetries; i++) {
     try {
