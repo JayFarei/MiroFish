@@ -111,17 +111,29 @@ cp .env.example .env
 **Required Environment Variables:**
 
 ```env
-# LLM API Configuration (supports any LLM API with OpenAI SDK format)
+# ===== LLM Backend Selection =====
+# "openai" = OpenAI-compatible API (default), "claude_code" = Claude Code headless mode
+LLM_BACKEND=openai
+
+# ===== OpenAI-compatible API Config (used when LLM_BACKEND=openai) =====
 # Recommended: Alibaba Qwen-plus model via Bailian Platform: https://bailian.console.aliyun.com/
 # High consumption, try simulations with fewer than 40 rounds first
 LLM_API_KEY=your_api_key
 LLM_BASE_URL=https://dashscope.aliyuncs.com/compatible-mode/v1
 LLM_MODEL_NAME=qwen-plus
 
-# Zep Cloud Configuration
+# ===== Claude Code Headless Config (used when LLM_BACKEND=claude_code) =====
+# Requires Claude Code CLI installed and logged in: https://code.claude.com
+# CLAUDE_CODE_BIN=claude
+# CLAUDE_CODE_MODEL=claude-opus-4-6
+# CLAUDE_CODE_TIMEOUT=300
+
+# ===== Zep Memory Graph Config =====
 # Free monthly quota is sufficient for basic usage: https://app.getzep.com/
 ZEP_API_KEY=your_zep_api_key
 ```
+
+> **Tip:** When using `LLM_BACKEND=claude_code`, the OpenAI API keys are not required. You can also route OASIS simulations through Claude via the included proxy, see `.env.example` for details.
 
 #### 2. Install Dependencies
 
