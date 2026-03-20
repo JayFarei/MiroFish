@@ -79,7 +79,9 @@ Long-running operations (graph building, simulation, report generation) run in b
 ## Environment Variables
 
 Required in `.env` at project root (see `.env.example`):
-- `LLM_API_KEY`, `LLM_BASE_URL`, `LLM_MODEL_NAME` — Primary LLM (OpenAI-compatible endpoint)
+- `LLM_BACKEND` — `openai` (default) or `claude_code` (Claude Code headless mode)
+- `LLM_API_KEY`, `LLM_BASE_URL`, `LLM_MODEL_NAME` — Primary LLM (used when `LLM_BACKEND=openai`)
+- `CLAUDE_CODE_BIN`, `CLAUDE_CODE_MODEL`, `CLAUDE_CODE_TIMEOUT` — Claude Code settings (used when `LLM_BACKEND=claude_code`)
 - `ZEP_API_KEY` — Zep Cloud API key
 - Optional: `LLM_BOOST_API_KEY`, `LLM_BOOST_BASE_URL`, `LLM_BOOST_MODEL_NAME` — Secondary faster/cheaper LLM
 
